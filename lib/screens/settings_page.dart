@@ -21,7 +21,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       child: Column(
         children: [
           ArnaGroupedView(
-            title: "Theme mode",
+            title: "Theme",
             children: [
               ArnaRadioListTile(
                 value: Theme.system,

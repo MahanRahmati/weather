@@ -1,12 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// import '/models/feel.dart';
+import '/models/feel.dart';
 import '/models/temp.dart';
 import '/models/weather.dart';
 
 part 'daily.g.dart';
 
-//TODO Fix Daily
 @JsonSerializable(explicitToJson: true)
 class Daily {
   final double? dt;
@@ -16,17 +15,17 @@ class Daily {
   final double? moonset;
   final double? moonPhase;
   final Temp? temp;
-  // final FeelsLike? feelsLike;
-  // final double? pressure;
-  // final double? humidity;
-  // final double? dewPoint;
-  // final double? windSpeed;
-  // final double? windDeg;
-  // final double? windGust;
+  final FeelsLike? feelsLike;
+  final double? pressure;
+  final double? humidity;
+  final double? dewPoint;
+  final double? windSpeed;
+  final double? windDeg;
+  final double? windGust;
   final List<Weather>? weather;
-  // final double? clouds;
-  // final double? pop;
-  // final double? uvi;
+  final double? clouds;
+  final double? pop;
+  final double? uvi;
 
   Daily({
     this.dt,
@@ -36,17 +35,17 @@ class Daily {
     this.moonset,
     this.moonPhase,
     this.temp,
-    // this.feelsLike,
-    // this.pressure,
-    // this.humidity,
-    // this.dewPoint,
-    // this.windSpeed,
-    // this.windDeg,
-    // this.windGust,
+    this.feelsLike,
+    this.pressure,
+    this.humidity,
+    this.dewPoint,
+    this.windSpeed,
+    this.windDeg,
+    this.windGust,
     this.weather,
-    // this.clouds,
-    // this.pop,
-    // this.uvi,
+    this.clouds,
+    this.pop,
+    this.uvi,
   });
 
   factory Daily.fromJson(Map<String, dynamic> json) => _$DailyFromJson(json);
