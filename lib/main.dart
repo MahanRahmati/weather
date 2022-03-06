@@ -2,6 +2,7 @@ import 'package:arna/arna.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '/screens/main_page.dart';
+import '/screens/settings_page.dart';
 import '/utils/functions.dart';
 
 void main() {
@@ -9,14 +10,14 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     fetchData(context);
@@ -25,9 +26,24 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const ArnaApp(
+    final theme = ref.watch(changeTheme);
+    Brightness? brightness;
+
+    switch (theme.theme) {
+      case Theme.dark:
+        brightness = Brightness.dark;
+        break;
+      case Theme.light:
+        brightness = Brightness.light;
+        break;
+      default:
+        brightness = null;
+    }
+
+    return ArnaApp(
       debugShowCheckedModeBanner: false,
-      home: MainPage(),
+      theme: ArnaThemeData(brightness: brightness),
+      home: const MainPage(),
     );
   }
 }
