@@ -13,11 +13,17 @@ dependencies:
     sdk: flutter
   arna: ^0.3.2
   flutter_riverpod: ^2.0.0-dev.4
+  json_annotation: ^4.4.0
+  json_serializable: ^6.1.4
+  http: ^0.13.4
+  flutter_svg: ^1.0.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.4
+  build_runner: ^2.1.7
 
 flutter:
   uses-material-design: true
