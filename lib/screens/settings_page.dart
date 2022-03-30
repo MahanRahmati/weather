@@ -1,22 +1,18 @@
 import 'package:arna/arna.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsPage extends ConsumerStatefulWidget {
+import '/providers/temp.dart';
+import '/providers/theme.dart';
+import '/providers/time.dart';
+
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends ConsumerState<SettingsPage> {
-  // TODO Fix Settings
-  var _temp = "0";
-  var _time = "0";
-  var _wind = "0";
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Theme? themeMode = ref.watch(changeTheme).theme;
+    Temp? tempUnit = ref.watch(changeTempUnit).tempUnit;
+    TimeFormat? format = ref.watch(changeTimeFormat).format;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -47,16 +43,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             title: "Temperature unit",
             children: [
               ArnaRadioListTile(
-                value: "0",
-                groupValue: _temp,
+                value: Temp.celsius,
+                groupValue: tempUnit,
                 title: "Celsius",
-                onChanged: (value) => setState(() => _temp = value as String),
+                onChanged: (_) => ref.read(changeTempUnit.notifier).celsius(),
               ),
               ArnaRadioListTile(
-                value: "1",
-                groupValue: _temp,
+                value: Temp.fahrenheit,
+                groupValue: tempUnit,
                 title: "Fahrenheit",
-                onChanged: (value) => setState(() => _temp = value as String),
+                onChanged: (_) =>
+                    ref.read(changeTempUnit.notifier).fahrenheit(),
+              ),
+              ArnaRadioListTile(
+                value: Temp.kelvin,
+                groupValue: tempUnit,
+                title: "Kelvin",
+                onChanged: (_) => ref.read(changeTempUnit.notifier).kelvin(),
               ),
             ],
           ),
@@ -64,69 +67,21 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             title: "Time format",
             children: [
               ArnaRadioListTile(
-                value: "0",
-                groupValue: _time,
-                title: "1:00 PM",
-                onChanged: (value) => setState(() => _time = value as String),
-              ),
-              ArnaRadioListTile(
-                value: "1",
-                groupValue: _time,
+                value: TimeFormat.t24,
+                groupValue: format,
                 title: "13:00",
-                onChanged: (value) => setState(() => _time = value as String),
-              ),
-            ],
-          ),
-          ArnaGroupedView(
-            title: "Wind speed unit",
-            children: [
-              ArnaRadioListTile(
-                value: "0",
-                groupValue: _wind,
-                title: "meters/S",
-                onChanged: (value) => setState(() => _wind = value as String),
+                onChanged: (_) => ref.read(changeTimeFormat.notifier).t24(),
               ),
               ArnaRadioListTile(
-                value: "1",
-                groupValue: _wind,
-                title: "Kilometers/h",
-                onChanged: (value) => setState(() => _wind = value as String),
-              ),
-              ArnaRadioListTile(
-                value: "2",
-                groupValue: _wind,
-                title: "miles/h",
-                onChanged: (value) => setState(() => _wind = value as String),
+                value: TimeFormat.t12,
+                groupValue: format,
+                title: "1:00 PM",
+                onChanged: (_) => ref.read(changeTimeFormat.notifier).t12(),
               ),
             ],
           ),
         ],
       ),
     );
-  }
-}
-
-enum Theme { system, dark, light }
-
-final changeTheme = ChangeNotifierProvider.autoDispose(
-  (ref) => ChangeThemeState(),
-);
-
-class ChangeThemeState extends ChangeNotifier {
-  Theme? theme = Theme.system;
-
-  void system() {
-    theme = Theme.system;
-    notifyListeners();
-  }
-
-  void dark() {
-    theme = Theme.dark;
-    notifyListeners();
-  }
-
-  void light() {
-    theme = Theme.light;
-    notifyListeners();
   }
 }

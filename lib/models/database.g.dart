@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'location.dart';
+part of 'database.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class LocationAdapter extends TypeAdapter<Location> {
+class DatabaseAdapter extends TypeAdapter<Database> {
   @override
-  final int typeId = 1;
+  final int typeId = 0;
 
   @override
-  Location read(BinaryReader reader) {
+  Database read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Location(
-      name: fields[0] as String,
-      country: fields[1] as String,
-      lat: fields[2] as double,
-      lon: fields[3] as double,
+    return Database(
+      location: fields[0] as Location?,
+      data: (fields[1] as Map?)?.cast<String, dynamic>(),
+      dateTime: fields[2] as DateTime?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Location obj) {
+  void write(BinaryWriter writer, Database obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.country)
-      ..writeByte(2)
-      ..write(obj.lat)
       ..writeByte(3)
-      ..write(obj.lon);
+      ..writeByte(0)
+      ..write(obj.location)
+      ..writeByte(1)
+      ..write(obj.data)
+      ..writeByte(2)
+      ..write(obj.dateTime);
   }
 
   @override
@@ -44,7 +41,7 @@ class LocationAdapter extends TypeAdapter<Location> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LocationAdapter &&
+      other is DatabaseAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

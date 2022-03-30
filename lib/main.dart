@@ -1,32 +1,28 @@
 import 'package:arna/arna.dart';
 import 'package:flutter/services.dart' show Brightness;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
+import '/models/database.dart';
+import '/models/location.dart';
+import '/providers/theme.dart';
 import '/screens/main_page.dart';
-import '/screens/settings_page.dart';
-import '/utils/functions.dart';
+import '/strings.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(DatabaseAdapter());
+  Hive.registerAdapter(LocationAdapter());
+  await Hive.openBox<Database>(Strings.database);
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    fetchData(context);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(changeTheme);
     Brightness? brightness;
 

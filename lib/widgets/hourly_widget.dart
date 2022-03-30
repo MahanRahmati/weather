@@ -54,12 +54,7 @@ class HourlyWidget extends StatelessWidget {
                                 Padding(
                                   padding: Styles.normal,
                                   child: Text(
-                                    DateFormat('H:00').format(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                        hourly!.dt!.toInt() * 1000,
-                                        isUtc: true,
-                                      ),
-                                    ),
+                                    DateFormat('H:00').format(hourly!.date!),
                                     style: ArnaTheme.of(context)
                                         .textTheme
                                         .subtitleTextStyle,
@@ -71,7 +66,7 @@ class HourlyWidget extends StatelessWidget {
                                     height: Styles.buttonSize,
                                     width: Styles.buttonSize,
                                     child: SvgPicture.asset(
-                                      'assets/images/${hourly.weather![0].icon}.svg',
+                                      'assets/images/${hourly.weatherIcon}.svg',
                                       height: Styles.buttonSize,
                                       width: Styles.buttonSize,
                                     ),
@@ -80,7 +75,10 @@ class HourlyWidget extends StatelessWidget {
                                 Padding(
                                   padding: Styles.normal,
                                   child: Text(
-                                    hourly.temp!.ceil().toString() + "°",
+                                    hourly.temperature!.celsius!
+                                            .ceil()
+                                            .toString() +
+                                        "°",
                                     style: ArnaTheme.of(context)
                                         .textTheme
                                         .titleTextStyle,

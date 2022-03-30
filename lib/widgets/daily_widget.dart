@@ -20,17 +20,14 @@ class DailyWidget extends StatelessWidget {
     return ArnaGroupedView(
       title: Strings.daily,
       children: daily.map((daily) {
-        DateTime dt = DateTime.fromMillisecondsSinceEpoch(
-          daily!.dt!.toInt() * 1000,
-          isUtc: true,
-        );
+        DateTime dt = daily!.date!;
         String date = DateFormat('d').format(dt);
         return ArnaListTile(
           leading: SizedBox(
             height: 42,
             width: 42,
             child: SvgPicture.asset(
-              'assets/images/${daily.weather![0].icon}.svg',
+              'assets/images/${daily.weatherIcon}.svg',
             ),
           ),
           title: (DateFormat('d').format(DateTime.now()) == date)
@@ -40,11 +37,11 @@ class DailyWidget extends StatelessWidget {
           trailing: Row(
             children: [
               Text(
-                "${daily.temp!.max!.ceil()}°",
+                "${daily.tempMax!.celsius!.ceil()}°",
                 style: ArnaTheme.of(context).textTheme.titleTextStyle,
               ),
               Text(
-                "  ${daily.temp!.min!.ceil()}°",
+                "  ${daily.tempMin!.celsius!.ceil()}°",
                 style: ArnaTheme.of(context).textTheme.subtitleTextStyle,
               ),
             ],

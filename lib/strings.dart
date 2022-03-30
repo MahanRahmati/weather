@@ -8,8 +8,6 @@ abstract class Strings {
   static const welcome = "Welcome to Weather!";
   static const emptyLocation = "Please add a location.";
   static const search = "Search...";
-  static const wind = "Wind";
-  static const humidity = "Humidity";
-  static const uv = "UV Index";
   static const pressure = "Pressure";
+  static const database = "Database";
 }
