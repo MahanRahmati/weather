@@ -1,12 +1,12 @@
 import 'package:arna/arna.dart';
 
-import '/models/location.dart';
+import '/models/database.dart';
 import '/widgets/home_card_widget.dart';
 
 class HomeGridWidget extends StatelessWidget {
-  const HomeGridWidget({Key? key, required this.locations}) : super(key: key);
+  const HomeGridWidget({Key? key, required this.databases}) : super(key: key);
 
-  final List<Location> locations;
+  final List<Database> databases;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class HomeGridWidget extends StatelessWidget {
                 : 3,
         childAspectRatio: 2,
       ),
-      itemCount: locations.length,
+      itemCount: databases.length,
       padding: Styles.small,
       itemBuilder: (BuildContext context, int index) {
-        return HomeCardWidget(location: locations[index]);
+        return HomeCardWidget(database: databases[index]);
       },
     );
   }

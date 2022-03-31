@@ -2,7 +2,6 @@ import 'package:arna/arna.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '/models/database.dart';
-import '/models/location.dart';
 import '/screens/add_page.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
@@ -18,8 +17,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   Box<Database>? db;
-  List<Location> locations = [];
-  List<Location> filteredLocations = [];
+  List<Database> databases = [];
+  List<Database> filteredDatabases = [];
   var showSearch = false;
   TextEditingController controller = TextEditingController();
 
@@ -38,7 +37,7 @@ class _MainPageState extends State<MainPage> {
         final Database? database = db!.get(key);
         if (database != null) {
           if (database.location != null) {
-            locations.add(database.location!);
+            databases.add(database);
           }
         }
       }
@@ -51,14 +50,18 @@ class _MainPageState extends State<MainPage> {
       return;
     }
     if (query.isNotEmpty) {
-      filteredLocations.clear();
-      for (Location location in locations) {
-        if (location.name.toLowerCase().contains(query.toLowerCase()) ||
-            location.country.toLowerCase().contains(query.toLowerCase())) {
-          filteredLocations.add(location);
+      filteredDatabases.clear();
+      for (Database database in databases) {
+        if (database.location!.name
+                .toLowerCase()
+                .contains(query.toLowerCase()) ||
+            database.location!.country
+                .toLowerCase()
+                .contains(query.toLowerCase())) {
+          filteredDatabases.add(database);
         }
+        setState(() {});
       }
-      setState(() {});
     }
   }
 
@@ -93,11 +96,11 @@ class _MainPageState extends State<MainPage> {
         onChanged: (text) => search(text),
         placeholder: Strings.search,
       ),
-      body: locations.isEmpty
+      body: databases.isEmpty
           ? const WelcomeWidget()
           : controller.text.isEmpty
-              ? HomeGridWidget(locations: locations)
-              : HomeGridWidget(locations: filteredLocations),
+              ? HomeGridWidget(databases: databases)
+              : HomeGridWidget(databases: filteredDatabases),
     );
   }
 }
