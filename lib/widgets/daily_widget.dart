@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '/models/daily.dart';
 import '/strings.dart';
+import '/utils/functions.dart';
 
 class DailyWidget extends StatelessWidget {
   final List<Daily?> daily;
@@ -23,9 +24,15 @@ class DailyWidget extends StatelessWidget {
         DateTime dt = daily!.date!;
         String date = DateFormat('d').format(dt);
         return ArnaListTile(
-          leading: SizedBox(
+          leading: Container(
             height: 42,
             width: 42,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: borderRadiusAll(42),
+              color: const Color(0x35000000),
+            ),
+            padding: Styles.normal,
             child: SvgPicture.asset(
               'assets/images/${daily.weatherIcon}.svg',
             ),
@@ -33,7 +40,7 @@ class DailyWidget extends StatelessWidget {
           title: (DateFormat('d').format(DateTime.now()) == date)
               ? Strings.today
               : DateFormat('EEEE').format(dt),
-          subtitle: DateFormat('MMM d').format(dt),
+          subtitle: daily.weatherDescription!.toTitleCase(),
           trailing: Row(
             children: [
               Text(

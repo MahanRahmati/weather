@@ -4,7 +4,7 @@ abstract class Strings {
   static const settings = "Settings";
   static const today = "Today";
   static const hourly = "Hourly";
-  static const daily = "Daily";
+  static const daily = "This Week";
   static const welcome = "Welcome to Weather!";
   static const emptyLocation = "Please add a location.";
   static const search = "Search...";
