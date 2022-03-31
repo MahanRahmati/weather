@@ -1,22 +1,24 @@
 import 'package:arna/arna.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '/models/database.dart';
 import '/models/forecast.dart';
+import '/providers/temp.dart';
 import '/screens/forecast_page.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
 
-class HomeCardWidget extends StatefulWidget {
+class HomeCardWidget extends ConsumerStatefulWidget {
   const HomeCardWidget({Key? key, required this.database}) : super(key: key);
 
   final Database database;
 
   @override
-  State<HomeCardWidget> createState() => _HomeCardWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeCardWidgetState();
 }
 
-class _HomeCardWidgetState extends State<HomeCardWidget> {
+class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
   Box<Database>? db;
 
   @override
@@ -27,6 +29,7 @@ class _HomeCardWidgetState extends State<HomeCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final temp = ref.watch(changeTempUnit);
     return FutureBuilder<Forecast?>(
       future: forecastByLocation(db, widget.database.location!),
       builder: (context, snapshot) {
@@ -56,49 +59,42 @@ class _HomeCardWidgetState extends State<HomeCardWidget> {
                   child: ArnaCard(
                     child: Padding(
                       padding: Styles.normal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: Styles.normal,
-                                child: FittedBox(
-                                  child: Text(
-                                    widget.database.location!.name,
-                                    style: ArnaTheme.of(context)
-                                        .textTheme
-                                        .titleTextStyle,
-                                  ),
-                                ),
+                          Padding(
+                            padding: Styles.normal,
+                            child: FittedBox(
+                              child: Text(
+                                temp.tempUnit == Temp.celsius
+                                    ? forecast.temperature!.celsius!
+                                            .ceil()
+                                            .toString() +
+                                        "°"
+                                    : temp.tempUnit == Temp.fahrenheit
+                                        ? forecast.temperature!.fahrenheit!
+                                                .ceil()
+                                                .toString() +
+                                            "°"
+                                        : forecast.temperature!.kelvin!
+                                                .ceil()
+                                                .toString() +
+                                            "°",
+                                style: ArnaTheme.of(context)
+                                    .textTheme
+                                    .largeTitleTextStyle,
                               ),
-                              Padding(
-                                padding: Styles.normal,
-                                child: FittedBox(
-                                  child: Text(
-                                    widget.database.location!.country,
-                                    style: ArnaTheme.of(context)
-                                        .textTheme
-                                        .subtitleTextStyle,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                           Padding(
                             padding: Styles.normal,
                             child: FittedBox(
                               child: Text(
-                                forecast.temperature!.celsius!
-                                        .ceil()
-                                        .toString() +
-                                    "°C",
+                                "${widget.database.location!.name}, ${widget.database.location!.country}",
                                 style: ArnaTheme.of(context)
                                     .textTheme
-                                    .titleTextStyle,
+                                    .subtitleTextStyle
+                                    .copyWith(fontSize: 17),
                               ),
                             ),
                           ),
