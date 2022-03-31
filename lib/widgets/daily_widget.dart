@@ -30,7 +30,7 @@ class DailyWidget extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               borderRadius: borderRadiusAll(42),
-              color: const Color(0x35000000),
+              color: const Color(0x21000000),
             ),
             padding: Styles.normal,
             child: SvgPicture.asset(
