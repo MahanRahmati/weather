@@ -1,28 +1,27 @@
 import 'package:arna/arna.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '/models/database.dart';
 import '/models/location.dart';
-import '/screens/forecast_page.dart';
+import '/screens/add_page.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
-import '/utils/functions.dart';
+import '/widgets/home_grid_widget.dart';
 import '/widgets/welcome_widget.dart';
 
-class MainPage extends ConsumerStatefulWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends ConsumerState<MainPage> {
-  List<Location> savedLocations = [];
-  List<Location> locations = [];
-  var showSearch = true;
-  TextEditingController controller = TextEditingController();
+class _MainPageState extends State<MainPage> {
   Box<Database>? db;
+  List<Location> locations = [];
+  List<Location> filteredLocations = [];
+  var showSearch = false;
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -39,7 +38,7 @@ class _MainPageState extends ConsumerState<MainPage> {
         final Database? database = db!.get(key);
         if (database != null) {
           if (database.location != null) {
-            savedLocations.add(database.location!);
+            locations.add(database.location!);
           }
         }
       }
@@ -47,85 +46,38 @@ class _MainPageState extends ConsumerState<MainPage> {
   }
 
   Future search(String query) async {
-    List<Location> searchLocations = await searchLocation(query);
-    locations.clear();
-    setState(
-      () => locations.addAll(
-        searchLocations
-            .map(
-              (location) => Location(
-                name: location.name,
-                country: location.country,
-                lat: location.lat,
-                lon: location.lon,
-              ),
-            )
-            .toList(),
-      ),
-    ); //TODO Fix Stateful dialog
+    if (query.isEmpty) {
+      setState(() {});
+      return;
+    }
+    if (query.isNotEmpty) {
+      filteredLocations.clear();
+      for (Location location in locations) {
+        if (location.name.toLowerCase().contains(query.toLowerCase()) ||
+            location.country.toLowerCase().contains(query.toLowerCase())) {
+          filteredLocations.add(location);
+        }
+      }
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return ArnaScaffold(
       headerBarLeading: ArnaIconButton(
-        icon: savedLocations.isEmpty
-            ? Icons.add_outlined
-            : Icons.location_city_outlined,
-        onPressed: () => showArnaPopupDialog(
-          context: context,
-          title: Strings.places,
-          headerBarLeading: ArnaIconButton(
-            icon: Icons.search_outlined,
-            onPressed: () => setState(() {
-              locations.clear();
-              showSearch = !showSearch;
-              controller.text = "";
-            }),
-          ),
-          searchField: ArnaSearchField(
-            showSearch: showSearch,
-            controller: controller,
-            onChanged: (text) {
-              if (text.isNotEmpty && text.length > 3) search(text);
-            },
-            onSubmitted: (text) {
-              if (text.isNotEmpty) search(text);
-            },
-          ),
-          body: StatefulBuilder(
-            builder: (context, setState) {
-              return SingleChildScrollView(
-                child: ArnaGroupedView(
-                  title: "Locations",
-                  children: locations
-                      .map(
-                        (location) => ArnaListTile(
-                          onTap: () => setState(
-                            () {
-                              savedLocations.add(location);
-                              locations.clear();
-                              showSearch = !showSearch;
-                              controller.text = "";
-                            },
-                          ),
-                          leading: const Icon(
-                            Icons.location_city_outlined,
-                            size: Styles.iconSize,
-                          ),
-                          title: location.name,
-                          subtitle: location.country,
-                        ),
-                      )
-                      .toList(),
-                ),
-              );
-            },
-          ),
+        icon: Icons.add_outlined,
+        onPressed: () => Navigator.push(
+          context,
+          ArnaPageRoute(builder: (context) => const AddPage()),
         ),
       ),
-      title: Strings.places,
+      title: Strings.appName,
       actions: [
+        ArnaIconButton(
+          icon: Icons.search_outlined,
+          onPressed: () => setState(() => showSearch = !showSearch),
+        ),
         ArnaIconButton(
           icon: Icons.settings_outlined,
           onPressed: () => showArnaPopupDialog(
@@ -135,16 +87,17 @@ class _MainPageState extends ConsumerState<MainPage> {
           ),
         ),
       ],
-      body: savedLocations.isEmpty
+      searchField: ArnaSearchField(
+        showSearch: showSearch,
+        controller: controller,
+        onChanged: (text) => search(text),
+        placeholder: Strings.search,
+      ),
+      body: locations.isEmpty
           ? const WelcomeWidget()
-          : ForecastPage(
-              location: Location(
-                name: savedLocations[0].name,
-                country: savedLocations[0].country,
-                lat: savedLocations[0].lat,
-                lon: savedLocations[0].lon,
-              ), //TODO Fix current item
-            ),
+          : controller.text.isEmpty
+              ? HomeGridWidget(locations: locations)
+              : HomeGridWidget(locations: filteredLocations),
     );
   }
 }
