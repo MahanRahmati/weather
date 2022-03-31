@@ -67,30 +67,47 @@ class _ForecastPageState extends State<ForecastPage> {
                 );
               } else {
                 if (forecast != null) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: Styles.padding),
-                          child: WeatherWidget(
-                            icon: forecast.weatherIcon!,
-                            temp: forecast.temperature!.celsius!
-                                .ceil()
-                                .toString(),
-                            description: forecast.weatherDescription!,
-                          ),
-                        ),
-                        HourlyWidget(
-                          hourly: forecast.hourly!,
-                          timezoneOffset: forecast.timezoneOffset!,
-                        ),
-                        DailyWidget(
-                          daily: forecast.daily!,
-                          timezoneOffset: forecast.timezoneOffset!,
-                        ),
-                      ],
-                    ),
+                  Widget weatherWidget = WeatherWidget(
+                    icon: forecast.weatherIcon!,
+                    temp: forecast.temperature!.celsius!.ceil().toString(),
+                    description: forecast.weatherDescription!,
                   );
+                  Widget hourlyWidget = HourlyWidget(
+                    hourly: forecast.hourly!,
+                    timezoneOffset: forecast.timezoneOffset!,
+                  );
+                  Widget dailyWidget = DailyWidget(
+                    daily: forecast.daily!,
+                    timezoneOffset: forecast.timezoneOffset!,
+                  );
+                  return isExpanded(context)
+                      ? SingleChildScrollView(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: deviceWidth(context) / 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [weatherWidget, hourlyWidget],
+                                ),
+                              ),
+                              SizedBox(
+                                width: deviceWidth(context) / 2,
+                                child: dailyWidget,
+                              ),
+                            ],
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              weatherWidget,
+                              hourlyWidget,
+                              dailyWidget,
+                            ],
+                          ),
+                        );
                 } else {
                   return Center(
                     child: Text(
