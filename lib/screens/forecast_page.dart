@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '/models/database.dart';
 import '/models/forecast.dart';
 import '/models/location.dart';
-import '/screens/add_page.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
@@ -33,23 +32,11 @@ class _ForecastPageState extends State<ForecastPage> {
   @override
   Widget build(BuildContext context) {
     return ArnaScaffold(
-      headerBarLeading: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ArnaIconButton(
-            icon: Icons.arrow_back_outlined,
-            onPressed: () => Navigator.pop(context),
-            tooltipMessage: MaterialLocalizations.of(context).backButtonTooltip,
-            semanticLabel: MaterialLocalizations.of(context).backButtonTooltip,
-          ),
-          ArnaIconButton(
-            icon: Icons.add_outlined,
-            onPressed: () => Navigator.push(
-              context,
-              ArnaPageRoute(builder: (context) => const AddPage()),
-            ),
-          ),
-        ],
+      headerBarLeading: ArnaIconButton(
+        icon: Icons.arrow_back_outlined,
+        onPressed: () => Navigator.pop(context),
+        tooltipMessage: MaterialLocalizations.of(context).backButtonTooltip,
+        semanticLabel: MaterialLocalizations.of(context).backButtonTooltip,
       ),
       title: widget.location.name,
       actions: [
