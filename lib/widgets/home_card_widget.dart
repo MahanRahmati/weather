@@ -1,6 +1,7 @@
 import 'package:arna/arna.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '/models/database.dart';
 import '/models/forecast.dart';
@@ -59,45 +60,63 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                   child: ArnaCard(
                     child: Padding(
                       padding: Styles.normal,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: Styles.normal,
-                            child: FittedBox(
-                              child: Text(
-                                temp.tempUnit == Temp.celsius
-                                    ? forecast.temperature!.celsius!
-                                            .ceil()
-                                            .toString() +
-                                        "°"
-                                    : temp.tempUnit == Temp.fahrenheit
-                                        ? forecast.temperature!.fahrenheit!
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: Styles.normal,
+                                child: FittedBox(
+                                  child: Text(
+                                    widget.database.location!.name,
+                                    style: ArnaTheme.of(context)
+                                        .textTheme
+                                        .titleTextStyle,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: Styles.normal,
+                                child: FittedBox(
+                                  child: Text(
+                                    temp.tempUnit == Temp.celsius
+                                        ? forecast.temperature!.celsius!
                                                 .ceil()
                                                 .toString() +
                                             "°"
-                                        : forecast.temperature!.kelvin!
-                                                .ceil()
-                                                .toString() +
-                                            "°",
-                                style: ArnaTheme.of(context)
-                                    .textTheme
-                                    .largeTitleTextStyle,
+                                        : temp.tempUnit == Temp.fahrenheit
+                                            ? forecast.temperature!.fahrenheit!
+                                                    .ceil()
+                                                    .toString() +
+                                                "°"
+                                            : forecast.temperature!.kelvin!
+                                                    .ceil()
+                                                    .toString() +
+                                                "°",
+                                    style: ArnaTheme.of(context)
+                                        .textTheme
+                                        .largeTitleTextStyle,
+                                    // .copyWith(fontSize: 60),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          Padding(
+                          Container(
+                            height: 98,
+                            width: 98,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: borderRadiusAll(98),
+                              color: const Color(0x21000000),
+                            ),
                             padding: Styles.normal,
-                            child: FittedBox(
-                              child: Text(
-                                "${widget.database.location!.name}, ${widget.database.location!.country}",
-                                style: ArnaTheme.of(context)
-                                    .textTheme
-                                    .subtitleTextStyle
-                                    .copyWith(fontSize: 17),
-                              ),
+                            child: SvgPicture.asset(
+                              'assets/images/${forecast.weatherIcon!}.svg',
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),

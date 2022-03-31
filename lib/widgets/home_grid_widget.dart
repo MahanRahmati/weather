@@ -17,7 +17,7 @@ class HomeGridWidget extends StatelessWidget {
             : isMedium(context)
                 ? 2
                 : 3,
-        childAspectRatio: 2,
+        mainAxisExtent: 168,
       ),
       itemCount: databases.length,
       padding: Styles.small,
