@@ -69,8 +69,8 @@ class _ForecastPageState extends State<ForecastPage> {
                 if (forecast != null) {
                   Widget weatherWidget = WeatherWidget(
                     icon: forecast.weatherIcon!,
-                    temp: forecast.temperature!.celsius!.ceil().toString(),
                     description: forecast.weatherDescription!,
+                    date: forecast.date!,
                   );
                   Widget hourlyWidget = HourlyWidget(
                     hourly: forecast.hourly!,
