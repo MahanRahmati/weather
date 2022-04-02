@@ -30,8 +30,11 @@ Color circleBackgroundColor(BuildContext context) {
 }
 
 List<Color> backgroundColor(DateTime date, double timezoneOffset) {
-  // TODO Get time
-  int time = date.hour;
+  int t1 = (date.hour * 3600) + (date.minute * 60);
+  int t2 = timezoneOffset.toInt();
+  double t3 = (t1 + t2) / 3600;
+
+  int time = t3.toInt();
 
   if (time >= 20 || time < 7) {
     return [const Color(0xFF032253), const Color(0xFF001528)];
@@ -197,7 +200,7 @@ DateTime? unpackDate(Map<String, dynamic>? M, String k) {
   if (M != null) {
     if (M.containsKey(k)) {
       int millis = M[k] * 1000;
-      return DateTime.fromMillisecondsSinceEpoch(millis);
+      return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
     }
   }
   return null;
