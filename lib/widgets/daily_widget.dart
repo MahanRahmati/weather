@@ -18,12 +18,13 @@ class DailyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ArnaGroupedView(
+    return ArnaList(
       title: Strings.daily,
-      children: daily.map((daily) {
+      items: daily.map((daily) {
         DateTime dt = daily!.date!;
         String date = DateFormat('d').format(dt);
-        return ArnaListTile(
+        int pop = (daily.pop! * 100).toInt();
+        return ArnaExpansionPanel(
           leading: Container(
             height: 42,
             width: 42,
@@ -41,15 +42,150 @@ class DailyWidget extends StatelessWidget {
               ? Strings.today
               : DateFormat('EEEE').format(dt),
           subtitle: daily.weatherDescription!.toTitleCase(),
-          trailing: Row(
+          trailing: Padding(
+            padding: Styles.horizontal,
+            child: Row(
+              children: [
+                Text(
+                  "${daily.tempMax!.celsius!.ceil()}°",
+                  style: ArnaTheme.of(context).textTheme.titleTextStyle,
+                ),
+                Text(
+                  "  ${daily.tempMin!.celsius!.ceil()}°",
+                  style: ArnaTheme.of(context).textTheme.subtitleTextStyle,
+                ),
+              ],
+            ),
+          ),
+          child: Column(
             children: [
-              Text(
-                "${daily.tempMax!.celsius!.ceil()}°",
-                style: ArnaTheme.of(context).textTheme.titleTextStyle,
+              Padding(
+                padding: Styles.normal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: Styles.tileTextPadding,
+                            child: Text(
+                              Strings.pressure,
+                              style: ArnaTheme.of(context).textTheme.textStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: Styles.tileSubtitleTextPadding,
+                            child: Text(
+                              "${daily.pressure} hPa",
+                              style: ArnaTheme.of(context)
+                                  .textTheme
+                                  .subtitleTextStyle
+                                  .copyWith(
+                                    color: ArnaDynamicColor.resolve(
+                                      ArnaColors.secondaryTextColor,
+                                      context,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: Styles.tileTextPadding,
+                            child: Text(
+                              Strings.humidity,
+                              style: ArnaTheme.of(context).textTheme.textStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: Styles.tileSubtitleTextPadding,
+                            child: Text(
+                              "${daily.humidity}%",
+                              style: ArnaTheme.of(context)
+                                  .textTheme
+                                  .subtitleTextStyle
+                                  .copyWith(
+                                    color: ArnaDynamicColor.resolve(
+                                      ArnaColors.secondaryTextColor,
+                                      context,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              Text(
-                "  ${daily.tempMin!.celsius!.ceil()}°",
-                style: ArnaTheme.of(context).textTheme.subtitleTextStyle,
+              Padding(
+                padding: Styles.normal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: Styles.tileTextPadding,
+                            child: Text(
+                              Strings.pop,
+                              style: ArnaTheme.of(context).textTheme.textStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: Styles.tileSubtitleTextPadding,
+                            child: Text(
+                              "$pop%",
+                              style: ArnaTheme.of(context)
+                                  .textTheme
+                                  .subtitleTextStyle
+                                  .copyWith(
+                                    color: ArnaDynamicColor.resolve(
+                                      ArnaColors.secondaryTextColor,
+                                      context,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: Styles.tileTextPadding,
+                            child: Text(
+                              Strings.uvi,
+                              style: ArnaTheme.of(context).textTheme.textStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: Styles.tileSubtitleTextPadding,
+                            child: Text(
+                              "${daily.uvi!.toInt()}",
+                              style: ArnaTheme.of(context)
+                                  .textTheme
+                                  .subtitleTextStyle
+                                  .copyWith(
+                                    color: ArnaDynamicColor.resolve(
+                                      ArnaColors.secondaryTextColor,
+                                      context,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

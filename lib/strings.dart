@@ -9,5 +9,8 @@ abstract class Strings {
   static const emptyLocation = "Please add a location.";
   static const search = "Search...";
   static const pressure = "Pressure";
+  static const humidity = "Humidity";
+  static const pop = "Precipitation";
+  static const uvi = "UV Index";
   static const database = "Database";
 }
