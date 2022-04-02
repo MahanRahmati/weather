@@ -70,17 +70,10 @@ class HourlyWidget extends ConsumerWidget {
                         padding: Styles.normal,
                         child: Text(
                           temp.tempUnit == Temp.celsius
-                              ? hourly.temperature!.celsius!.ceil().toString() +
-                                  "°"
+                              ? "${hourly.temperature!.celsius!.ceil()}°"
                               : temp.tempUnit == Temp.fahrenheit
-                                  ? hourly.temperature!.fahrenheit!
-                                          .ceil()
-                                          .toString() +
-                                      "°"
-                                  : hourly.temperature!.kelvin!
-                                          .ceil()
-                                          .toString() +
-                                      "°",
+                                  ? "${hourly.temperature!.fahrenheit!.ceil()}°"
+                                  : "${hourly.temperature!.kelvin!.ceil()}°",
                           style: ArnaTheme.of(context).textTheme.titleTextStyle,
                         ),
                       ),

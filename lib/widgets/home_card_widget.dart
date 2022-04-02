@@ -117,19 +117,10 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                             child: FittedBox(
                               child: Text(
                                 temp.tempUnit == Temp.celsius
-                                    ? forecast.temperature!.celsius!
-                                            .ceil()
-                                            .toString() +
-                                        "°"
+                                    ? "${forecast.temperature!.celsius!.ceil()}°"
                                     : temp.tempUnit == Temp.fahrenheit
-                                        ? forecast.temperature!.fahrenheit!
-                                                .ceil()
-                                                .toString() +
-                                            "°"
-                                        : forecast.temperature!.kelvin!
-                                                .ceil()
-                                                .toString() +
-                                            "°",
+                                        ? "${forecast.temperature!.fahrenheit!.ceil()}°"
+                                        : "${forecast.temperature!.kelvin!.ceil()}°",
                                 style: ArnaTheme.of(context)
                                     .textTheme
                                     .largeTitleTextStyle

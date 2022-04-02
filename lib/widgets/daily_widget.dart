@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '/models/daily.dart';
 import '/providers/time.dart';
+import '/providers/temp.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
 
@@ -21,6 +22,7 @@ class DailyWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final time = ref.watch(changeTimeFormat);
+    final temp = ref.watch(changeTempUnit);
     return ArnaList(
       title: Strings.daily,
       items: daily.map((daily) {
@@ -49,11 +51,19 @@ class DailyWidget extends ConsumerWidget {
             child: Row(
               children: [
                 Text(
-                  "${daily.tempMax!.celsius!.ceil()}°",
+                  temp.tempUnit == Temp.celsius
+                      ? "${daily.tempMax!.celsius!.ceil().toString()}°"
+                      : temp.tempUnit == Temp.fahrenheit
+                          ? "${daily.tempMax!.fahrenheit!.ceil().toString()}°"
+                          : "${daily.tempMax!.kelvin!.ceil().toString()}°",
                   style: ArnaTheme.of(context).textTheme.titleTextStyle,
                 ),
                 Text(
-                  "  ${daily.tempMin!.celsius!.ceil()}°",
+                  temp.tempUnit == Temp.celsius
+                      ? " ${daily.tempMin!.celsius!.ceil()}°"
+                      : temp.tempUnit == Temp.fahrenheit
+                          ? " ${daily.tempMin!.fahrenheit!.ceil()}°"
+                          : " ${daily.tempMin!.kelvin!.ceil()}°",
                   style: ArnaTheme.of(context).textTheme.subtitleTextStyle,
                 ),
               ],
