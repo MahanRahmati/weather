@@ -8,6 +8,7 @@ import '/models/location.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
+import '/widgets/current_widget.dart';
 import '/widgets/daily_widget.dart';
 import '/widgets/hourly_widget.dart';
 import '/widgets/weather_widget.dart';
@@ -72,6 +73,14 @@ class _ForecastPageState extends State<ForecastPage> {
                     description: forecast.weatherDescription!,
                     date: forecast.date!,
                   );
+                  Widget currentWidget = CurrentWidget(
+                    pressure: forecast.pressure!,
+                    humidity: forecast.humidity!,
+                    uvi: forecast.uvi!,
+                    windSpeed: forecast.windSpeed!,
+                    clouds: forecast.clouds!,
+                    visibility: forecast.visibility!,
+                  );
                   Widget hourlyWidget = HourlyWidget(
                     hourly: forecast.hourly!,
                     timezoneOffset: forecast.timezoneOffset!,
@@ -89,7 +98,11 @@ class _ForecastPageState extends State<ForecastPage> {
                                 width: deviceWidth(context) / 2,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [weatherWidget, hourlyWidget],
+                                  children: [
+                                    weatherWidget,
+                                    currentWidget,
+                                    hourlyWidget,
+                                  ],
                                 ),
                               ),
                               SizedBox(
@@ -103,6 +116,7 @@ class _ForecastPageState extends State<ForecastPage> {
                           child: Column(
                             children: [
                               weatherWidget,
+                              currentWidget,
                               hourlyWidget,
                               dailyWidget,
                             ],

@@ -18,44 +18,6 @@ class DailyWidget extends ConsumerWidget {
     required this.timezoneOffset,
   }) : super(key: key);
 
-  Widget rowBuilder(List<Widget> children) {
-    return Padding(
-      padding: Styles.normal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: children,
-      ),
-    );
-  }
-
-  Widget columnBuilder(BuildContext context, String title, String subtitle) {
-    return Expanded(
-      child: Column(
-        children: [
-          Padding(
-            padding: Styles.tileTextPadding,
-            child: Text(
-              title,
-              style: ArnaTheme.of(context).textTheme.textStyle,
-            ),
-          ),
-          Padding(
-            padding: Styles.tileSubtitleTextPadding,
-            child: Text(
-              subtitle,
-              style: ArnaTheme.of(context).textTheme.subtitleTextStyle.copyWith(
-                    color: ArnaDynamicColor.resolve(
-                      ArnaColors.secondaryTextColor,
-                      context,
-                    ),
-                  ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final time = ref.watch(changeTimeFormat);
@@ -64,7 +26,6 @@ class DailyWidget extends ConsumerWidget {
       items: daily.map((daily) {
         DateTime dt = daily!.date!;
         String date = DateFormat('d').format(dt);
-        int pop = (daily.pop! * 100).toInt();
         return ArnaExpansionPanel(
           leading: Container(
             height: 42,
@@ -134,7 +95,11 @@ class DailyWidget extends ConsumerWidget {
               ),
               rowBuilder(
                 [
-                  columnBuilder(context, Strings.pop, "$pop%"),
+                  columnBuilder(
+                    context,
+                    Strings.pop,
+                    "${(daily.pop! * 100).toInt()}%",
+                  ),
                   columnBuilder(context, Strings.uvi, "${daily.uvi!.toInt()}"),
                 ],
               ),
