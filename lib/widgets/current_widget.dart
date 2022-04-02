@@ -24,33 +24,51 @@ class CurrentWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ArnaCard(
-      child: Column(
-        children: [
-          rowBuilder(
-            [
-              columnBuilder(context, Strings.pressure, "$pressure hPa"),
-              columnBuilder(context, Strings.humidity, "$humidity%"),
-            ],
-          ),
-          rowBuilder(
-            [
-              columnBuilder(context, Strings.windSpeed, "$windSpeed m/s"),
-              columnBuilder(context, Strings.uvi, "${uvi.toInt()}"),
-            ],
-          ),
-          rowBuilder(
-            [
-              columnBuilder(
-                context,
-                Strings.clouds,
-                "${(clouds * 100).toInt()}%",
+    return ArnaList(
+      title: Strings.details,
+      items: [
+        Padding(
+          padding: Styles.normal,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: Styles.borderRadius,
+              border: Border.all(
+                color: ArnaDynamicColor.resolve(
+                  ArnaColors.borderColor,
+                  context,
+                ),
               ),
-              columnBuilder(context, Strings.visibility, "$visibility m"),
-            ],
+              color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
+            ),
+            child: Column(
+              children: [
+                rowBuilder(
+                  [
+                    columnBuilder(context, Strings.pressure, "$pressure hPa"),
+                    columnBuilder(context, Strings.humidity, "$humidity%"),
+                  ],
+                ),
+                rowBuilder(
+                  [
+                    columnBuilder(context, Strings.windSpeed, "$windSpeed m/s"),
+                    columnBuilder(context, Strings.uvi, "${uvi.toInt()}"),
+                  ],
+                ),
+                rowBuilder(
+                  [
+                    columnBuilder(
+                      context,
+                      Strings.clouds,
+                      "${(clouds * 100).toInt()}%",
+                    ),
+                    columnBuilder(context, Strings.visibility, "$visibility m"),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

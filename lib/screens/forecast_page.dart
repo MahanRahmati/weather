@@ -92,7 +92,7 @@ class _ForecastPageState extends State<ForecastPage> {
                   return isExpanded(context)
                       ? SingleChildScrollView(
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 width: deviceWidth(context) / 2,
