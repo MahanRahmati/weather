@@ -1,12 +1,14 @@
 import 'package:arna/arna.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '/models/daily.dart';
+import '/providers/time.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
 
-class DailyWidget extends StatelessWidget {
+class DailyWidget extends ConsumerWidget {
   final List<Daily?> daily;
   final double timezoneOffset;
 
@@ -16,8 +18,47 @@ class DailyWidget extends StatelessWidget {
     required this.timezoneOffset,
   }) : super(key: key);
 
+  Widget rowBuilder(List<Widget> children) {
+    return Padding(
+      padding: Styles.normal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: children,
+      ),
+    );
+  }
+
+  Widget columnBuilder(BuildContext context, String title, String subtitle) {
+    return Expanded(
+      child: Column(
+        children: [
+          Padding(
+            padding: Styles.tileTextPadding,
+            child: Text(
+              title,
+              style: ArnaTheme.of(context).textTheme.textStyle,
+            ),
+          ),
+          Padding(
+            padding: Styles.tileSubtitleTextPadding,
+            child: Text(
+              subtitle,
+              style: ArnaTheme.of(context).textTheme.subtitleTextStyle.copyWith(
+                    color: ArnaDynamicColor.resolve(
+                      ArnaColors.secondaryTextColor,
+                      context,
+                    ),
+                  ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final time = ref.watch(changeTimeFormat);
     return ArnaList(
       title: Strings.daily,
       items: daily.map((daily) {
@@ -59,133 +100,43 @@ class DailyWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Padding(
-                padding: Styles.normal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: Styles.tileTextPadding,
-                            child: Text(
-                              Strings.pressure,
-                              style: ArnaTheme.of(context).textTheme.textStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: Styles.tileSubtitleTextPadding,
-                            child: Text(
-                              "${daily.pressure} hPa",
-                              style: ArnaTheme.of(context)
-                                  .textTheme
-                                  .subtitleTextStyle
-                                  .copyWith(
-                                    color: ArnaDynamicColor.resolve(
-                                      ArnaColors.secondaryTextColor,
-                                      context,
-                                    ),
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: Styles.tileTextPadding,
-                            child: Text(
-                              Strings.humidity,
-                              style: ArnaTheme.of(context).textTheme.textStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: Styles.tileSubtitleTextPadding,
-                            child: Text(
-                              "${daily.humidity}%",
-                              style: ArnaTheme.of(context)
-                                  .textTheme
-                                  .subtitleTextStyle
-                                  .copyWith(
-                                    color: ArnaDynamicColor.resolve(
-                                      ArnaColors.secondaryTextColor,
-                                      context,
-                                    ),
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              rowBuilder(
+                [
+                  columnBuilder(
+                    context,
+                    Strings.sunrise,
+                    time.format == TimeFormat.t24
+                        ? DateFormat('H:mm').format(daily.sunrise!)
+                        : DateFormat('h:mm a').format(daily.sunrise!),
+                  ),
+                  columnBuilder(
+                    context,
+                    Strings.sunset,
+                    time.format == TimeFormat.t24
+                        ? DateFormat('H:mm').format(daily.sunset!)
+                        : DateFormat('h:mm a').format(daily.sunset!),
+                  ),
+                ],
               ),
-              Padding(
-                padding: Styles.normal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: Styles.tileTextPadding,
-                            child: Text(
-                              Strings.pop,
-                              style: ArnaTheme.of(context).textTheme.textStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: Styles.tileSubtitleTextPadding,
-                            child: Text(
-                              "$pop%",
-                              style: ArnaTheme.of(context)
-                                  .textTheme
-                                  .subtitleTextStyle
-                                  .copyWith(
-                                    color: ArnaDynamicColor.resolve(
-                                      ArnaColors.secondaryTextColor,
-                                      context,
-                                    ),
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: Styles.tileTextPadding,
-                            child: Text(
-                              Strings.uvi,
-                              style: ArnaTheme.of(context).textTheme.textStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: Styles.tileSubtitleTextPadding,
-                            child: Text(
-                              "${daily.uvi!.toInt()}",
-                              style: ArnaTheme.of(context)
-                                  .textTheme
-                                  .subtitleTextStyle
-                                  .copyWith(
-                                    color: ArnaDynamicColor.resolve(
-                                      ArnaColors.secondaryTextColor,
-                                      context,
-                                    ),
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+              rowBuilder(
+                [
+                  columnBuilder(
+                    context,
+                    Strings.pressure,
+                    "${daily.pressure} hPa",
+                  ),
+                  columnBuilder(
+                    context,
+                    Strings.humidity,
+                    "${daily.humidity}%",
+                  ),
+                ],
+              ),
+              rowBuilder(
+                [
+                  columnBuilder(context, Strings.pop, "$pop%"),
+                  columnBuilder(context, Strings.uvi, "${daily.uvi!.toInt()}"),
+                ],
               ),
             ],
           ),
