@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:arna/arna.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +21,35 @@ extension StringCasingExtension on String {
       .split(' ')
       .map((str) => str.toCapitalized())
       .join(' ');
+}
+
+Color circleBackgroundColor(BuildContext context) {
+  return ArnaTheme.brightnessOf(context) == Brightness.light
+      ? const Color(0x21000000)
+      : const Color(0x21FFFFFF);
+}
+
+List<Color> backgroundColor(DateTime date, double timezoneOffset) {
+  // TODO Get time
+  int time = date.hour;
+
+  if (time >= 20 || time < 7) {
+    return [const Color(0xFF032253), const Color(0xFF001528)];
+  }
+
+  if (time >= 7 && time < 12) {
+    return [const Color(0xFF68CBC8), const Color(0xFF1F8EAA)];
+  }
+
+  if (time >= 12 && time < 17) {
+    return [const Color(0xFFFDA65A), const Color(0xFFFFDC64)];
+  }
+
+  if (time >= 17 && time < 20) {
+    return [const Color(0xFF3C1E78), const Color(0xFF693282)];
+  }
+
+  return [ArnaColors.errorColor, ArnaColors.errorColor];
 }
 
 Future searchLocation(String query) async {

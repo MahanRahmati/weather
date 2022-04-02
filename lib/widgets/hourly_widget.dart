@@ -7,6 +7,7 @@ import '/models/hourly.dart';
 import '/providers/temp.dart';
 import '/providers/time.dart';
 import '/strings.dart';
+import '/utils/functions.dart';
 
 class HourlyWidget extends ConsumerWidget {
   final List<Hourly?> hourly;
@@ -43,8 +44,8 @@ class HourlyWidget extends ConsumerWidget {
                         padding: Styles.normal,
                         child: Text(
                           time.format == TimeFormat.t24
-                              ? DateFormat.Hm().format(hourly!.date!)
-                              : DateFormat.jm().format(hourly!.date!),
+                              ? DateFormat('H').format(hourly!.date!)
+                              : DateFormat('h a').format(hourly!.date!),
                           style:
                               ArnaTheme.of(context).textTheme.subtitleTextStyle,
                         ),
@@ -57,7 +58,7 @@ class HourlyWidget extends ConsumerWidget {
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
                             borderRadius: borderRadiusAll(42),
-                            color: const Color(0x21000000),
+                            color: circleBackgroundColor(context),
                           ),
                           padding: Styles.normal,
                           child: SvgPicture.asset(
