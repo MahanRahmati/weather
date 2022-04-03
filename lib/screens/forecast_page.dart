@@ -8,9 +8,9 @@ import '/models/location.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
-import '/widgets/current_widget.dart';
 import '/widgets/daily_widget.dart';
-import '/widgets/hourly_widget.dart';
+import '/widgets/details_widget.dart';
+import '/widgets/today_widget.dart';
 import '/widgets/weather_widget.dart';
 
 class ForecastPage extends StatefulWidget {
@@ -73,7 +73,7 @@ class _ForecastPageState extends State<ForecastPage> {
                     description: forecast.weatherDescription!,
                     date: forecast.date!,
                   );
-                  Widget currentWidget = CurrentWidget(
+                  Widget detailsWidget = DetailsWidget(
                     pressure: forecast.pressure!,
                     humidity: forecast.humidity!,
                     uvi: forecast.uvi!,
@@ -81,7 +81,7 @@ class _ForecastPageState extends State<ForecastPage> {
                     clouds: forecast.clouds!,
                     visibility: forecast.visibility!,
                   );
-                  Widget hourlyWidget = HourlyWidget(
+                  Widget todayWidget = TodayWidget(
                     hourly: forecast.hourly!,
                     timezoneOffset: forecast.timezoneOffset!,
                   );
@@ -100,8 +100,8 @@ class _ForecastPageState extends State<ForecastPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     weatherWidget,
-                                    currentWidget,
-                                    hourlyWidget,
+                                    detailsWidget,
+                                    todayWidget,
                                   ],
                                 ),
                               ),
@@ -116,8 +116,8 @@ class _ForecastPageState extends State<ForecastPage> {
                           child: Column(
                             children: [
                               weatherWidget,
-                              currentWidget,
-                              hourlyWidget,
+                              detailsWidget,
+                              todayWidget,
                               dailyWidget,
                             ],
                           ),

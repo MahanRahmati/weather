@@ -9,11 +9,11 @@ import '/providers/time.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
 
-class HourlyWidget extends ConsumerWidget {
+class TodayWidget extends ConsumerWidget {
   final List<Hourly?> hourly;
   final double timezoneOffset;
 
-  const HourlyWidget({
+  const TodayWidget({
     Key? key,
     required this.hourly,
     required this.timezoneOffset,
