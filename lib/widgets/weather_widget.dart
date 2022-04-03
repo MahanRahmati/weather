@@ -40,37 +40,32 @@ class WeatherWidget extends ConsumerWidget {
               ),
               color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
             ),
-            // width: double.infinity,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: Styles.normal,
-                      child: Container(
-                        height: 98,
-                        width: 98,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          borderRadius: borderRadiusAll(98),
-                          color: circleBackgroundColor(context),
-                        ),
-                        padding: Styles.normal,
-                        child: SvgPicture.asset('assets/images/$icon.svg'),
-                      ),
+                Padding(
+                  padding: Styles.normal,
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadiusAll(70),
+                      color: circleBackgroundColor(context),
                     ),
-                    Padding(
-                      padding: Styles.normal,
-                      child: FittedBox(
-                        child: Text(
-                          description.toTitleCase(),
-                          style: ArnaTheme.of(context).textTheme.titleTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
+                    padding: Styles.normal,
+                    child: SvgPicture.asset('assets/images/$icon.svg'),
+                  ),
                 ),
+                Padding(
+                  padding: Styles.normal,
+                  child: FittedBox(
+                    child: Text(
+                      description.toTitleCase(),
+                      style: ArnaTheme.of(context).textTheme.titleTextStyle,
+                    ),
+                  ),
+                ),
+                const Spacer(),
                 Padding(
                   padding: Styles.normal,
                   child: FittedBox(
