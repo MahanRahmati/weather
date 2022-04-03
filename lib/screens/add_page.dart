@@ -73,13 +73,11 @@ class _AddPageState extends State<AddPage> {
           children: locations
               .map(
                 (location) => ArnaListTile(
-                  onTap: () => setState(
-                    () => Navigator.pushReplacement(
-                      context,
-                      ArnaPageRoute(
-                        builder: (context) => ForecastPage(
-                          location: location,
-                        ),
+                  onTap: () => Navigator.pushReplacement(
+                    context,
+                    ArnaPageRoute(
+                      builder: (context) => ForecastPage(
+                        location: location,
                       ),
                     ),
                   ),
