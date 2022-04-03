@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '/providers/temp.dart';
 import '/providers/theme.dart';
 import '/providers/time.dart';
+import '/strings.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -17,65 +18,65 @@ class SettingsPage extends ConsumerWidget {
       child: Column(
         children: [
           ArnaGroupedView(
-            title: "Theme",
+            title: Strings.theme,
             children: [
               ArnaRadioListTile(
                 value: Theme.system,
                 groupValue: themeMode,
-                title: "System",
+                title: Strings.system,
                 onChanged: (_) => ref.read(changeTheme.notifier).system(),
               ),
               ArnaRadioListTile(
                 value: Theme.dark,
                 groupValue: themeMode,
-                title: "Dark",
+                title: Strings.dark,
                 onChanged: (_) => ref.read(changeTheme.notifier).dark(),
               ),
               ArnaRadioListTile(
                 value: Theme.light,
                 groupValue: themeMode,
-                title: "Light",
+                title: Strings.light,
                 onChanged: (_) => ref.read(changeTheme.notifier).light(),
               ),
             ],
           ),
           ArnaGroupedView(
-            title: "Temperature unit",
+            title: Strings.unit,
             children: [
               ArnaRadioListTile(
                 value: Temp.celsius,
                 groupValue: tempUnit,
-                title: "Celsius",
+                title: Strings.celsius,
                 onChanged: (_) => ref.read(changeTempUnit.notifier).celsius(),
               ),
               ArnaRadioListTile(
                 value: Temp.fahrenheit,
                 groupValue: tempUnit,
-                title: "Fahrenheit",
+                title: Strings.fahrenheit,
                 onChanged: (_) =>
                     ref.read(changeTempUnit.notifier).fahrenheit(),
               ),
               ArnaRadioListTile(
                 value: Temp.kelvin,
                 groupValue: tempUnit,
-                title: "Kelvin",
+                title: Strings.kelvin,
                 onChanged: (_) => ref.read(changeTempUnit.notifier).kelvin(),
               ),
             ],
           ),
           ArnaGroupedView(
-            title: "Time format",
+            title: Strings.timeFormat,
             children: [
               ArnaRadioListTile(
                 value: TimeFormat.t24,
                 groupValue: format,
-                title: "13:00",
+                title: Strings.t24,
                 onChanged: (_) => ref.read(changeTimeFormat.notifier).t24(),
               ),
               ArnaRadioListTile(
                 value: TimeFormat.t12,
                 groupValue: format,
-                title: "1:00 PM",
+                title: Strings.t12,
                 onChanged: (_) => ref.read(changeTimeFormat.notifier).t12(),
               ),
             ],

@@ -74,12 +74,14 @@ class _MainPageState extends State<MainPage> {
           context,
           ArnaPageRoute(builder: (context) => const AddPage()),
         ),
+        tooltipMessage: Strings.add,
       ),
       title: Strings.appName,
       actions: [
         ArnaIconButton(
           icon: Icons.search_outlined,
           onPressed: () => setState(() => showSearch = !showSearch),
+          tooltipMessage: Strings.searchTooltip,
         ),
         ArnaIconButton(
           icon: Icons.settings_outlined,
@@ -88,6 +90,7 @@ class _MainPageState extends State<MainPage> {
             title: Strings.settings,
             body: const SettingsPage(),
           ),
+          tooltipMessage: Strings.settings,
         ),
       ],
       searchField: ArnaSearchField(
