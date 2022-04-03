@@ -29,6 +29,12 @@ class _MainPageState extends State<MainPage> {
     db = Hive.box<Database>(Strings.database);
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future search(String query) async {
     if (query.isEmpty) {
       setState(() {});

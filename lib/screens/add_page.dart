@@ -18,6 +18,12 @@ class _AddPageState extends State<AddPage> {
   var showSearch = true;
   TextEditingController controller = TextEditingController();
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future search(String query) async {
     List<Location> searchLocations = await searchLocation(query);
     locations.clear();
