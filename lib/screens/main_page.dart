@@ -94,14 +94,17 @@ class _MainPageState extends State<MainPage> {
         future: updateItems(db),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data != null) databases.addAll(snapshot.data!);
+            if (snapshot.data != null) {
+              databases.clear();
+              databases.addAll(snapshot.data!);
+            }
             return databases.isEmpty
                 ? const WelcomeWidget()
                 : controller.text.isEmpty
                     ? HomeGridWidget(databases: databases)
                     : HomeGridWidget(databases: filteredDatabases);
           }
-          return const WelcomeWidget();
+          return const SizedBox.shrink();
         },
       ),
     );
