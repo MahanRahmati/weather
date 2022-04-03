@@ -8,6 +8,7 @@ import '/models/forecast.dart';
 import '/providers/temp.dart';
 import '/screens/forecast_page.dart';
 import '/strings.dart';
+import '/utils/codes.dart';
 import '/utils/functions.dart';
 
 class HomeCardWidget extends ConsumerStatefulWidget {
@@ -109,6 +110,30 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                                           style: ArnaTheme.of(context)
                                               .textTheme
                                               .titleTextStyle
+                                              .copyWith(
+                                                color: ArnaColors
+                                                    .reversePrimaryTextColor,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: Styles.tileSubtitleTextPadding,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Flexible(
+                                        child: Text(
+                                          countryCodes.entries
+                                              .firstWhere((entry) =>
+                                                  entry.value ==
+                                                  widget.database.location!
+                                                      .country)
+                                              .key,
+                                          style: ArnaTheme.of(context)
+                                              .textTheme
+                                              .subtitleTextStyle
                                               .copyWith(
                                                 color: ArnaColors
                                                     .reversePrimaryTextColor,
