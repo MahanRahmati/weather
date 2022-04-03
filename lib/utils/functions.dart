@@ -280,6 +280,19 @@ Future addToDatabase(
             if (database.location!.lat == location.lat &&
                 database.location!.lon == location.lon) {
               exist = true;
+              if (database.dateTime != null) {
+                if (database.dateTime!.difference(DateTime.now()) >
+                    const Duration(hours: 1)) {
+                  await db.put(
+                    key,
+                    Database(
+                      location: location,
+                      data: forecast.toJson(),
+                      dateTime: DateTime.now(),
+                    ),
+                  );
+                }
+              }
             }
           }
         }
