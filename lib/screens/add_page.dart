@@ -56,11 +56,7 @@ class _AddPageState extends State<AddPage> {
       actions: [
         ArnaIconButton(
           icon: Icons.search_outlined,
-          onPressed: () => setState(() {
-            locations.clear();
-            showSearch = !showSearch;
-            controller.text = "";
-          }),
+          onPressed: () => setState(() => showSearch = !showSearch),
           tooltipMessage: Strings.searchTooltip,
         )
       ],
