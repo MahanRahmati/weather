@@ -50,10 +50,10 @@ class DailyWidget extends ConsumerWidget {
               children: [
                 Text(
                   temp.tempUnit == Temp.celsius
-                      ? "${daily.tempMax!.celsius!.ceil().toString()}°"
+                      ? "${daily.tempMax!.celsius!.ceil()}°"
                       : temp.tempUnit == Temp.fahrenheit
-                          ? "${daily.tempMax!.fahrenheit!.ceil().toString()}°"
-                          : "${daily.tempMax!.kelvin!.ceil().toString()}°",
+                          ? "${daily.tempMax!.fahrenheit!.ceil()}°"
+                          : "${daily.tempMax!.kelvin!.ceil()}°",
                   style: ArnaTheme.of(context).textTheme.titleTextStyle,
                 ),
                 Text(

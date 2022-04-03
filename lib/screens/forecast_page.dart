@@ -70,6 +70,7 @@ class _ForecastPageState extends State<ForecastPage> {
                 if (forecast != null) {
                   Widget weatherWidget = WeatherWidget(
                     icon: forecast.weatherIcon!,
+                    temperature: forecast.temperature!,
                     description: forecast.weatherDescription!,
                     date: forecast.date!,
                   );
