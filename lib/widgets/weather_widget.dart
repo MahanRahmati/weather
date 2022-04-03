@@ -14,18 +14,24 @@ class WeatherWidget extends ConsumerWidget {
     required this.temperature,
     required this.description,
     required this.date,
+    required this.timezoneOffset,
   }) : super(key: key);
 
   final String icon;
   final Temperature temperature;
   final String description;
   final DateTime date;
+  final double timezoneOffset;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final temp = ref.watch(changeTempUnit);
     return ArnaList(
-      title: DateFormat('EEEE, d MMMM').format(date),
+      title: DateFormat('EEEE, d MMMM').format(
+        date.add(
+          Duration(seconds: timezoneOffset.toInt()),
+        ),
+      ),
       items: [
         Padding(
           padding: Styles.normal,

@@ -5,6 +5,7 @@ abstract class Strings {
   static const search = "Search...";
   static const searchTooltip = "Search";
   static const settings = "Settings";
+  static const refresh = "Refresh";
   static const welcome = "Welcome to Weather!";
   static const emptyLocation = "Please add a location.";
   static const details = "Details";

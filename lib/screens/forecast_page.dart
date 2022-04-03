@@ -42,12 +42,18 @@ class _ForecastPageState extends State<ForecastPage> {
       title: widget.location.name,
       actions: [
         ArnaIconButton(
+          icon: Icons.refresh_outlined,
+          onPressed: () {},
+          tooltipMessage: Strings.refresh,
+        ),
+        ArnaIconButton(
           icon: Icons.settings_outlined,
           onPressed: () => showArnaPopupDialog(
             context: context,
             title: Strings.settings,
             body: const SettingsPage(),
           ),
+          tooltipMessage: Strings.settings,
         ),
       ],
       body: FutureBuilder<Forecast?>(
@@ -73,6 +79,7 @@ class _ForecastPageState extends State<ForecastPage> {
                     temperature: forecast.temperature!,
                     description: forecast.weatherDescription!,
                     date: forecast.date!,
+                    timezoneOffset: forecast.timezoneOffset!,
                   );
                   Widget detailsWidget = DetailsWidget(
                     pressure: forecast.pressure!,

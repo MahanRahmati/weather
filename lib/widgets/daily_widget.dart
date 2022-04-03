@@ -24,7 +24,9 @@ class DailyWidget extends ConsumerWidget {
     return ArnaList(
       title: Strings.daily,
       items: daily.map((daily) {
-        DateTime dt = daily!.date!;
+        DateTime dt = daily!.date!.add(
+          Duration(seconds: timezoneOffset.toInt()),
+        );
         String date = DateFormat('d').format(dt);
         return ArnaExpansionPanel(
           leading: Container(
