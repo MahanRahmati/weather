@@ -55,6 +55,7 @@ class _AddPageState extends State<AddPage> {
             showSearch = !showSearch;
             controller.text = "";
           }),
+          tooltipMessage: Strings.searchTooltip,
         )
       ],
       searchField: ArnaSearchField(
@@ -66,30 +67,50 @@ class _AddPageState extends State<AddPage> {
         onSubmitted: (text) {
           if (text.isNotEmpty) search(text);
         },
+        placeholder: Strings.search,
       ),
       body: SingleChildScrollView(
-        child: ArnaGroupedView(
-          title: "Locations",
-          children: locations
-              .map(
-                (location) => ArnaListTile(
-                  onTap: () => Navigator.pushReplacement(
+        child: ArnaList(
+          items: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: Styles.borderRadius,
+                border: Border.all(
+                  color: ArnaDynamicColor.resolve(
+                    ArnaColors.borderColor,
                     context,
-                    ArnaPageRoute(
-                      builder: (context) => ForecastPage(
-                        location: location,
-                      ),
-                    ),
                   ),
-                  leading: const Icon(
-                    Icons.location_city_outlined,
-                    size: Styles.iconSize,
-                  ),
-                  title: location.name,
-                  subtitle: location.country,
                 ),
-              )
-              .toList(),
+                color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
+              ),
+              child: ClipRRect(
+                borderRadius: Styles.listBorderRadius,
+                child: ArnaColumn(
+                  children: locations
+                      .map(
+                        (location) => ArnaListTile(
+                          onTap: () => Navigator.pushReplacement(
+                            context,
+                            ArnaPageRoute(
+                              builder: (context) => ForecastPage(
+                                location: location,
+                              ),
+                            ),
+                          ),
+                          leading: const Icon(
+                            Icons.location_city_outlined,
+                            size: Styles.iconSize,
+                          ),
+                          title: location.name,
+                          subtitle: location.country,
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
