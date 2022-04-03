@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import '/models/daily.dart';
-import '/providers/time.dart';
 import '/providers/temp.dart';
 import '/strings.dart';
 import '/utils/functions.dart';
@@ -21,7 +20,6 @@ class DailyWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final time = ref.watch(changeTimeFormat);
     final temp = ref.watch(changeTempUnit);
     return ArnaList(
       title: Strings.daily,
@@ -71,24 +69,6 @@ class DailyWidget extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              rowBuilder(
-                [
-                  columnBuilder(
-                    context,
-                    Strings.sunrise,
-                    time.format == TimeFormat.t24
-                        ? DateFormat('H:mm').format(daily.sunrise!)
-                        : DateFormat('h:mm a').format(daily.sunrise!),
-                  ),
-                  columnBuilder(
-                    context,
-                    Strings.sunset,
-                    time.format == TimeFormat.t24
-                        ? DateFormat('H:mm').format(daily.sunset!)
-                        : DateFormat('h:mm a').format(daily.sunset!),
-                  ),
-                ],
-              ),
               rowBuilder(
                 [
                   columnBuilder(

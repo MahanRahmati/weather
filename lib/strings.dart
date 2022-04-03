@@ -15,7 +15,7 @@ abstract class Strings {
   static const humidity = "Humidity";
   static const pop = "Precipitation";
   static const uvi = "UV Index";
-  static const windSpeed = "Wind";
+  static const windSpeed = "Wind Speed";
   static const clouds = "Cloud Cover";
   static const visibility = "Visibility";
   static const database = "Database";

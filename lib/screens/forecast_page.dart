@@ -97,7 +97,6 @@ class _ForecastPageState extends State<ForecastPage> {
                               SizedBox(
                                 width: deviceWidth(context) / 2,
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     weatherWidget,
                                     detailsWidget,
