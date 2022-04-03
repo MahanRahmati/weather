@@ -1,5 +1,6 @@
 import 'package:arna/arna.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '/models/database.dart';
@@ -62,8 +63,8 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                       decoration: BoxDecoration(
                         borderRadius: Styles.borderRadius,
                         gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                           colors: backgroundColor(
                             forecast.date!,
                             forecast.timezoneOffset!,
@@ -79,18 +80,23 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                  padding: Styles.tileTextPadding,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: Text(
-                                          widget.database.location!.name,
-                                          style: ArnaTheme.of(context)
-                                              .textTheme
-                                              .titleTextStyle,
-                                        ),
-                                      ),
-                                    ],
+                                  padding: Styles.normal,
+                                  child: FittedBox(
+                                    child: Text(
+                                      temp.tempUnit == Temp.celsius
+                                          ? "${forecast.temperature!.celsius!.ceil()}°"
+                                          : temp.tempUnit == Temp.fahrenheit
+                                              ? "${forecast.temperature!.fahrenheit!.ceil()}°"
+                                              : "${forecast.temperature!.kelvin!.ceil()}°",
+                                      style: ArnaTheme.of(context)
+                                          .textTheme
+                                          .largeTitleTextStyle
+                                          .copyWith(
+                                            fontSize: 42,
+                                            color: ArnaColors
+                                                .reversePrimaryTextColor,
+                                          ),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -99,11 +105,14 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                                     children: <Widget>[
                                       Flexible(
                                         child: Text(
-                                          forecast.weatherDescription!
-                                              .toTitleCase(),
+                                          widget.database.location!.name,
                                           style: ArnaTheme.of(context)
                                               .textTheme
-                                              .textStyle,
+                                              .titleTextStyle
+                                              .copyWith(
+                                                color: ArnaColors
+                                                    .reversePrimaryTextColor,
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -113,18 +122,18 @@ class _HomeCardWidgetState extends ConsumerState<HomeCardWidget> {
                             ),
                           ),
                           Padding(
-                            padding: Styles.normal,
-                            child: FittedBox(
-                              child: Text(
-                                temp.tempUnit == Temp.celsius
-                                    ? "${forecast.temperature!.celsius!.ceil()}°"
-                                    : temp.tempUnit == Temp.fahrenheit
-                                        ? "${forecast.temperature!.fahrenheit!.ceil()}°"
-                                        : "${forecast.temperature!.kelvin!.ceil()}°",
-                                style: ArnaTheme.of(context)
-                                    .textTheme
-                                    .largeTitleTextStyle
-                                    .copyWith(fontSize: 42),
+                            padding: Styles.large,
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                borderRadius: borderRadiusAll(70),
+                                color: circleBackgroundColor(context),
+                              ),
+                              padding: Styles.normal,
+                              child: SvgPicture.asset(
+                                'assets/images/${forecast.weatherIcon!}.svg',
                               ),
                             ),
                           ),
