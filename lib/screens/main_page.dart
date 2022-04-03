@@ -5,6 +5,7 @@ import '/models/database.dart';
 import '/screens/add_page.dart';
 import '/screens/settings_page.dart';
 import '/strings.dart';
+import '/utils/functions.dart';
 import '/widgets/home_grid_widget.dart';
 import '/widgets/welcome_widget.dart';
 
@@ -26,22 +27,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     db = Hive.box<Database>(Strings.database);
-    _updateItems();
-  }
-
-  _updateItems() async {
-    List<int>? keys = db!.keys.cast<int>().toList();
-    if (keys.isNotEmpty) {
-      for (int i = 0; i < keys.length; i++) {
-        int key = keys[i];
-        final Database? database = db!.get(key);
-        if (database != null) {
-          if (database.location != null) {
-            databases.add(database);
-          }
-        }
-      }
-    }
   }
 
   Future search(String query) async {
@@ -99,11 +84,20 @@ class _MainPageState extends State<MainPage> {
         onChanged: (text) => search(text),
         placeholder: Strings.search,
       ),
-      body: databases.isEmpty
-          ? const WelcomeWidget()
-          : controller.text.isEmpty
-              ? HomeGridWidget(databases: databases)
-              : HomeGridWidget(databases: filteredDatabases),
+      body: FutureBuilder<List<Database>>(
+        future: updateItems(db),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data != null) databases.addAll(snapshot.data!);
+            return databases.isEmpty
+                ? const WelcomeWidget()
+                : controller.text.isEmpty
+                    ? HomeGridWidget(databases: databases)
+                    : HomeGridWidget(databases: filteredDatabases);
+          }
+          return const WelcomeWidget();
+        },
+      ),
     );
   }
 }

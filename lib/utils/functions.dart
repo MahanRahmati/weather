@@ -117,6 +117,23 @@ Future searchLocation(String query) async {
   return null;
 }
 
+Future<List<Database>> updateItems(Box<Database>? db) async {
+  List<Database> items = [];
+  List<int>? keys = db!.keys.cast<int>().toList();
+  if (keys.isNotEmpty) {
+    for (int i = 0; i < keys.length; i++) {
+      int key = keys[i];
+      final Database? database = db.get(key);
+      if (database != null) {
+        if (database.location != null) {
+          items.add(database);
+        }
+      }
+    }
+  }
+  return items;
+}
+
 Future<Forecast> forecastByLocation(
   Box<Database>? db,
   Location location,
