@@ -69,24 +69,6 @@ class WeatherWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: Styles.normal,
-                      child: FittedBox(
-                        child: Text(
-                          DateFormat('EEEE, d MMMM').format(date),
-                          style: ArnaTheme.of(context)
-                              .textTheme
-                              .subtitleTextStyle
-                              .copyWith(
-                                color: ArnaDynamicColor.resolve(
-                                  ArnaColors.secondaryTextColor,
-                                  context,
-                                ),
-                              ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: Styles.padding),
                   ],
                 ),
                 Padding(
