@@ -2,7 +2,7 @@
     package="com.arna.weather.weather">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="weather"
+        android:label="Weather"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
