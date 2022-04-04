@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.17.0
   hive: ^2.1.0
   hive_flutter: ^1.1.0
+  flutter_native_splash: ^2.1.3+1
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +27,11 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   hive_generator: ^1.1.2
   build_runner: ^2.1.8
+
+flutter_native_splash:
+  color: "#F3F3F3"
+  color_dark: "#202020"
+  image: assets/images/icon.png
 
 flutter:
   uses-material-design: true
