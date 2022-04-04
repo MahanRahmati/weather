@@ -72,47 +72,25 @@ class _AddPageState extends State<AddPage> {
         placeholder: Strings.search,
       ),
       body: SingleChildScrollView(
-        child: ArnaList(
-          items: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: Styles.borderRadius,
-                border: Border.all(
-                  color: ArnaDynamicColor.resolve(
-                    ArnaColors.borderColor,
+        child: ArnaGroupedView(
+          children: locations
+              .map(
+                (location) => ArnaListTile(
+                  onTap: () => Navigator.pushReplacement(
                     context,
+                    ArnaPageRoute(
+                      builder: (context) => ForecastPage(location: location),
+                    ),
                   ),
+                  leading: const Icon(
+                    Icons.location_city_outlined,
+                    size: Styles.iconSize,
+                  ),
+                  title: location.name,
+                  subtitle: location.country,
                 ),
-                color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
-              ),
-              child: ClipRRect(
-                borderRadius: Styles.listBorderRadius,
-                child: ArnaColumn(
-                  children: locations
-                      .map(
-                        (location) => ArnaListTile(
-                          onTap: () => Navigator.pushReplacement(
-                            context,
-                            ArnaPageRoute(
-                              builder: (context) => ForecastPage(
-                                location: location,
-                              ),
-                            ),
-                          ),
-                          leading: const Icon(
-                            Icons.location_city_outlined,
-                            size: Styles.iconSize,
-                          ),
-                          title: location.name,
-                          subtitle: location.country,
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ),
-          ],
+              )
+              .toList(),
         ),
       ),
     );

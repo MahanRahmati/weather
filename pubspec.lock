@@ -34,7 +34,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: dfaf462d2dd9757f798d21f183afe412ca179d1b
+      resolved-ref: "04dc8cec7e8efaecf77691d404854856063af516"
       url: "https://github.com/MahanRahmati/Arna.git"
     source: git
     version: "0.3.5"

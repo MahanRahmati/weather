@@ -22,61 +22,39 @@ class DetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ArnaList(
+    return ArnaGroupedView(
       title: Strings.details,
-      items: [
-        Padding(
-          padding: Styles.normal,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: Styles.borderRadius,
-              border: Border.all(
-                color: ArnaDynamicColor.resolve(
-                  ArnaColors.borderColor,
-                  context,
-                ),
-              ),
-              color: ArnaDynamicColor.resolve(
-                ArnaColors.cardColor,
-                context,
-              ),
-            ),
-            child: ArnaColumn(
-              children: [
-                ArnaListTile(
-                  leading: const Icon(Icons.speed_outlined),
-                  title: Strings.pressure,
-                  subtitle: "$pressure hPa",
-                ),
-                ArnaListTile(
-                  leading: const Icon(Icons.opacity_outlined),
-                  title: Strings.humidity,
-                  subtitle: "$humidity%",
-                ),
-                ArnaListTile(
-                  leading: const Icon(Icons.air_outlined),
-                  title: Strings.windSpeed,
-                  subtitle: "$windSpeed m/s",
-                ),
-                ArnaListTile(
-                  leading: const Icon(Icons.brightness_high_outlined),
-                  title: Strings.uvi,
-                  subtitle: "${uvi.toInt()}",
-                ),
-                ArnaListTile(
-                  leading: const Icon(Icons.cloud_outlined),
-                  title: Strings.clouds,
-                  subtitle: "${(clouds * 100).toInt()}%",
-                ),
-                ArnaListTile(
-                  leading: const Icon(Icons.visibility_outlined),
-                  title: Strings.visibility,
-                  subtitle: "$visibility m",
-                ),
-              ],
-            ),
-          ),
-        )
+      children: [
+        ArnaListTile(
+          leading: const Icon(Icons.speed_outlined),
+          title: Strings.pressure,
+          subtitle: "$pressure hPa",
+        ),
+        ArnaListTile(
+          leading: const Icon(Icons.opacity_outlined),
+          title: Strings.humidity,
+          subtitle: "$humidity%",
+        ),
+        ArnaListTile(
+          leading: const Icon(Icons.air_outlined),
+          title: Strings.windSpeed,
+          subtitle: "$windSpeed m/s",
+        ),
+        ArnaListTile(
+          leading: const Icon(Icons.brightness_high_outlined),
+          title: Strings.uvi,
+          subtitle: "${uvi.toInt()}",
+        ),
+        ArnaListTile(
+          leading: const Icon(Icons.cloud_outlined),
+          title: Strings.clouds,
+          subtitle: "${(clouds * 100).toInt()}%",
+        ),
+        ArnaListTile(
+          leading: const Icon(Icons.visibility_outlined),
+          title: Strings.visibility,
+          subtitle: "$visibility m",
+        ),
       ],
     );
   }

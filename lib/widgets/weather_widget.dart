@@ -33,63 +33,57 @@ class WeatherWidget extends ConsumerWidget {
         ),
       ),
       items: [
-        Padding(
-          padding: Styles.normal,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: Styles.borderRadius,
-              border: Border.all(
-                color: ArnaDynamicColor.resolve(
-                  ArnaColors.borderColor,
-                  context,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: Styles.borderRadius,
+            border: Border.all(
+              color: ArnaDynamicColor.resolve(ArnaColors.borderColor, context),
+            ),
+            color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: Styles.normal,
+                child: Container(
+                  height: 70,
+                  width: 70,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadiusAll(70),
+                    color: circleBackgroundColor(context),
+                  ),
+                  padding: Styles.normal,
+                  child: SvgPicture.asset('assets/images/$icon.svg'),
                 ),
               ),
-              color: ArnaDynamicColor.resolve(ArnaColors.cardColor, context),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: Styles.normal,
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: borderRadiusAll(70),
-                      color: circleBackgroundColor(context),
-                    ),
-                    padding: Styles.normal,
-                    child: SvgPicture.asset('assets/images/$icon.svg'),
+              Padding(
+                padding: Styles.normal,
+                child: FittedBox(
+                  child: Text(
+                    description.toTitleCase(),
+                    style: ArnaTheme.of(context).textTheme.titleTextStyle,
                   ),
                 ),
-                Padding(
-                  padding: Styles.normal,
-                  child: FittedBox(
-                    child: Text(
-                      description.toTitleCase(),
-                      style: ArnaTheme.of(context).textTheme.titleTextStyle,
-                    ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: Styles.normal,
+                child: FittedBox(
+                  child: Text(
+                    temp.tempUnit == Temp.celsius
+                        ? "${temperature.celsius!.ceil()}°"
+                        : temp.tempUnit == Temp.fahrenheit
+                            ? "${temperature.fahrenheit!.ceil()}°"
+                            : "${temperature.kelvin!.ceil()}°",
+                    style: ArnaTheme.of(context)
+                        .textTheme
+                        .largeTitleTextStyle
+                        .copyWith(fontSize: 60),
                   ),
                 ),
-                const Spacer(),
-                Padding(
-                  padding: Styles.normal,
-                  child: FittedBox(
-                    child: Text(
-                      temp.tempUnit == Temp.celsius
-                          ? "${temperature.celsius!.ceil()}°"
-                          : temp.tempUnit == Temp.fahrenheit
-                              ? "${temperature.fahrenheit!.ceil()}°"
-                              : "${temperature.kelvin!.ceil()}°",
-                      style: ArnaTheme.of(context)
-                          .textTheme
-                          .largeTitleTextStyle
-                          .copyWith(fontSize: 60),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
